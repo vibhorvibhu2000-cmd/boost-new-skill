@@ -49,3 +49,8 @@ Thumbs.db
 .idea/
 *.log
 npm-debug.log*
+
+# firebase hosting cache + playwright json reports
+site/.firebase/
+test-results.json
+**/test-results.json
