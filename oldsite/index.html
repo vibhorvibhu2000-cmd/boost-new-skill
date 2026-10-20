@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boost - Modern Landing Page</title>
+  <meta name="description" content="Boost helps you build faster, ship smarter, and grow your business." />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-2: #121a33;
+      --card: #18224a;
+      --text: #e8ecff;
+      --muted: #a7b0d6;
+      --primary: #6c8cff;
+      --accent: #ff6cad;
+      --gradient: linear-gradient(135deg, #6c8cff, #ff6cad);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(11,16,32,0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 180px; }
+    .logo { font-weight: 800; font-size: 22px; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .nav-links { display: flex; gap: 16px; color: var(--muted); align-items: center; }
+    .nav-links a { display: inline-block; padding: 10px 20px; border: 1px solid rgba(255,255,255,.15); border-radius: 10px; font-size: 18px; font-weight: 600; color: var(--text); background: rgba(255,255,255,.04); }
+    .nav-links a:hover { background: rgba(255,255,255,.1); border-color: var(--primary); }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-block; padding: 12px 24px; border-radius: 10px; font-weight: 600;
+      border: none; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn-primary { background: var(--gradient); color: #fff; box-shadow: 0 8px 24px rgba(108,140,255,.35); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(108,140,255,.45); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,.15); }
+    .btn-ghost:hover { background: rgba(255,255,255,.05); }
+
+    /* Hero */
+    .hero { padding: 200px 0 80px; text-align: center; position: relative; }
+    .hero::before {
+      content: ''; position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,140,255,.25), transparent 70%);
+      filter: blur(40px); z-index: -1;
+    }
+    .badge { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(108,140,255,.12); color: var(--primary); font-size: 13px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(108,140,255,.25); }
+    h1 { font-size: clamp(36px, 6vw, 68px); line-height: 1.05; margin-bottom: 20px; letter-spacing: -1.5px; }
+    h1 span { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { color: var(--muted); font-size: 18px; max-width: 640px; margin: 0 auto 32px; }
+    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .hero-img { margin-top: 60px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+    .hero-img img { width: 100%; display: block; }
+
+    /* Stats */
+    .stats { padding: 40px 0; border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; text-align: center; }
+    .stat-num { font-size: 36px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stat-label { color: var(--muted); font-size: 14px; }
+
+    /* Features */
+    section { padding: 90px 0; }
+    .section-title { text-align: center; margin-bottom: 56px; }
+    .section-title h2 { font-size: 40px; margin-bottom: 12px; }
+    .section-title p { color: var(--muted); max-width: 600px; margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .card { background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 28px; transition: transform .2s ease, border-color .2s ease; }
+    .card:hover { transform: translateY(-6px); border-color: rgba(108,140,255,.4); }
+    .card-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+    .card h3 { margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 15px; }
+
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; align-items: stretch; }
+    .price-card { background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 32px; }
+    .price-card.featured { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+    .price { font-size: 44px; font-weight: 800; margin: 12px 0; }
+    .price span { font-size: 16px; color: var(--muted); font-weight: 400; }
+    .price-features { list-style: none; margin: 20px 0; color: var(--muted); }
+    .price-features li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .price-features li::before { content: '✓ '; color: var(--primary); font-weight: 700; }
+
+    /* Testimonials */
+    .test-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .quote { background: var(--card); border-radius: 16px; padding: 24px; border: 1px solid rgba(255,255,255,.06); }
+    .quote p { color: var(--muted); font-style: italic; margin-bottom: 16px; }
+    .author { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient); }
+    .author-name { font-weight: 600; }
+    .author-role { color: var(--muted); font-size: 13px; }
+
+    /* CTA */
+    .cta { text-align: center; background: linear-gradient(135deg, rgba(108,140,255,.15), rgba(255,108,173,.15)); border: 1px solid rgba(255,255,255,.08); border-radius: 24px; padding: 60px 24px; }
+    .cta h2 { font-size: 36px; margin-bottom: 12px; }
+    .cta p { color: var(--muted); margin-bottom: 24px; }
+
+    /* Footer */
+    footer { padding: 40px 0; border-top: 1px solid rgba(255,255,255,.06); color: var(--muted); font-size: 14px; }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+
+    @media (max-width: 800px) {
+      .features-grid, .pricing-grid, .test-grid, .stats-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <div class="logo"><img src="logo.png" alt="Boost New Skill" style="height:160px;width:auto;display:block;" /></div>
+      <div class="nav-links">
+        <a href="#features" style="background:#6c8cff;color:#fff;">Features</a>
+        <a href="#pricing" style="background:#ff6cad;color:#fff;">Pricing</a>
+        <a href="#testimonials" style="background:#4ade80;color:#0b1020;">Reviews</a>
+      </div>
+      <a class="btn btn-primary" href="#cta">Get Started</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <span class="badge">BOOST NEW SKILL</span>
+      <h1><img src="hero.png" alt="Build faster. Ship smarter. Grow bigger." style="max-width:100%;height:auto;display:block;margin:0 auto;" /></h1>
+      <p>The all-in-one platform that helps teams design, develop and deploy products in record time. Trusted by 10,000+ teams worldwide.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#cta">Start free trial</a>
+        <a class="btn btn-ghost" href="#features">See how it works</a>
+      </div>
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Dashboard preview" />
+      </div>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="container stats-grid">
+      <div><div class="stat-num">10K+</div><div class="stat-label">Active teams</div></div>
+      <div><div class="stat-num">99.9%</div><div class="stat-label">Uptime</div></div>
+      <div><div class="stat-num">50M+</div><div class="stat-label">Events processed</div></div>
+      <div><div class="stat-num">4.9★</div><div class="stat-label">Customer rating</div></div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Everything you need</h2>
+        <p>Powerful features to accelerate your workflow from idea to production.</p>
+      </div>
+      <div class="features-grid">
+        <div class="card"><div class="card-icon">⚡</div><h3>Lightning Fast</h3><p>Optimized for speed with edge caching and instant deploys.</p></div>
+        <div class="card"><div class="card-icon">🔒</div><h3>Secure by Default</h3><p>Enterprise-grade security with SSO, RBAC and audit logs.</p></div>
+        <div class="card"><div class="card-icon">📊</div><h3>Real-time Analytics</h3><p>Track metrics, funnels and user behavior in real time.</p></div>
+        <div class="card"><div class="card-icon">🧩</div><h3>Integrations</h3><p>Connect with 200+ tools you already use.</p></div>
+        <div class="card"><div class="card-icon">🌍</div><h3>Global CDN</h3><p>Serve content from 40+ regions worldwide.</p></div>
+        <div class="card"><div class="card-icon">🛠️</div><h3>Developer Tools</h3><p>CLI, SDKs and APIs for seamless automation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="container">
+      <div class="section-title">
+        <h2>Simple pricing</h2>
+        <p>Choose the plan that fits your team.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Starter</h3>
+          <div class="price">$0<span>/mo</span></div>
+          <ul class="price-features">
+            <li>1 project</li><li>Basic analytics</li><li>Community support</li>
+          </ul>
+          <a class="btn btn-ghost" style="width:100%;text-align:center" href="#cta">Get started</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Pro</h3>
+          <div class="price">$29<span>/mo</span></div>
+          <ul class="price-features">
+            <li>Unlimited projects</li><li>Advanced analytics</li><li>Priority support</li><li>Custom domains</li>
+          </ul>
+          <a class="btn btn-primary" style="width:100%;text-align:center" href="#cta">Start trial</a>
+        </div>
+        <div class="price-card">
+          <h3>Enterprise</h3>
+          <div class="price">Custom</div>
+          <ul class="price-features">
+            <li>SSO & RBAC</li><li>Dedicated support</li><li>SLA guarantee</li><li>On-prem option</li>
+          </ul>
+          <a class="btn btn-ghost" style="width:100%;text-align:center" href="#cta">Contact sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-title">
+        <h2>Loved by teams</h2>
+        <p>See what our customers have to say.</p>
+      </div>
+      <div class="test-grid">
+        <div class="quote"><p>"Boost cut our deploy time by 80%. Game changer."</p><div class="author"><div class="avatar"></div><div><div class="author-name">Sarah Chen</div><div class="author-role">CTO, Acme Inc</div></div></div></div>
+        <div class="quote"><p>"The best developer experience we've ever had."</p><div class="author"><div class="avatar"></div><div><div class="author-name">Marcus Lee</div><div class="author-role">Lead Eng, Nova</div></div></div></div>
+        <div class="quote"><p>"Support is incredible and the product keeps improving."</p><div class="author"><div class="avatar"></div><div><div class="author-name">Priya Sharma</div><div class="author-role">Founder, Orbit</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta">
+    <div class="container">
+      <div class="cta">
+        <h2>Ready to boost your business?</h2>
+        <p>Start your free 14-day trial. No credit card required.</p>
+        <a class="btn btn-primary" href="#">Get started now</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 Boost. All rights reserved.</div>
+      <div>Made with ❤️</div>
+    </div>
+  </footer>
+</body>
+</html>

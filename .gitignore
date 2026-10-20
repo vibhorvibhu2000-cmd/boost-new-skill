@@ -1,0 +1,51 @@
+# dependencies
+node_modules/
+.npm/
+
+# build output
+dist/
+dist-*/
+build/
+out/
+.vite/
+.cache/
+
+# test artifacts (heavy, regenerated)
+test-results/
+playwright-report/
+test-artifacts*/
+blob-report/
+.playwright/
+screenshots/
+*.webm
+
+# secrets / env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+serviceAccount*.json
+
+# firebase deploy config (contains project ids)
+firebase.genzai.json
+firebase.*.json
+!firebase.json
+
+# android / capacitor build
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+*.iml
+*.apk
+*.aab
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+npm-debug.log*

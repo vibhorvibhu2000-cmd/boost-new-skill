@@ -1,0 +1,25 @@
+{
+  "name": "boost19oct",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sync:android": "node scripts/sync-android.mjs",
+    "deploy:app": "node scripts/deploy-app.mjs",
+    "deploy:genzai": "node scripts/deploy-genzai.mjs",
+    "deploy:genzai:apis": "node scripts/enable-genzai-apis.mjs genzaiskill",
+    "deploy:genzai:auth": "node scripts/enable-genzai-auth.mjs genzaiskill",
+    "enable:genzai": "node scripts/enable-genzai-apis.mjs genzaiskill && node scripts/enable-genzai-auth.mjs genzaiskill",
+    "deploy:old": "node scripts/deploy-old.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3"
+  }
+}

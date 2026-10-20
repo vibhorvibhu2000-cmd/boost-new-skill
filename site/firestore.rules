@@ -1,0 +1,68 @@
+rules_version = '2';
+
+// ---------------------------------------------------------------------------
+// Boost New Skill — Firestore security rules
+// Project: boost19oct   (Firestore DB: asia-south1 / Mumbai)
+//
+// App ke collections:
+//   users        -> user profile (uid = Firebase Auth uid)
+//   questions    -> public Q&A board (sawaal + jawab)
+//   applications -> recruitment form
+//   messages     -> contact form
+//   verifications-> contact verification OTP
+//
+// ⚠️  TODO (security hardening, baad me karna hai):
+//   `users` ka list abhi public hai kyunki login page mobile number se email
+//   dhoondta hai. Har query me limit(1) lagaya gaya hai (AuthContext.jsx),
+//   isliye bulk dump limited hai. Full safety ke liye `user_phones/{mobile}`
+//   mapping banana chahiye aur `users` list band karni chahiye.
+// ---------------------------------------------------------------------------
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------------- Users (profile) ----------------
+    match /users/{userId} {
+      // Apna profile padhna (login ke baad)
+      allow get: if request.auth != null && request.auth.uid == userId;
+      // Mobile-number lookup (login page) — query me limit(1) laga hai
+      allow list: if request.query.limit != null && request.query.limit <= 50;
+      // Apna profile likhna (signup)
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // ---------------- Public Q&A board ----------------
+    match /questions/{questionId} {
+      allow read: if true;
+      allow create: if request.resource.data.question is string
+                    && request.resource.data.question.size() > 0;
+      allow update, delete: if true;
+    }
+
+    // ---------------- Recruitment applications ----------------
+    match /applications/{applicationId} {
+      allow create: if true;
+      // Sirf logged-in (admin) padh sakta hai
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // ---------------- Contact messages ----------------
+    match /messages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // ---------------- Contact verification (OTP) ----------------
+    match /verifications/{verificationId} {
+      allow create: if true;
+      allow read: if true;   // contact page apna OTP verify karta hai
+      allow update: if true;
+      allow delete: if false;
+    }
+
+    // ---------------- Baki kuch bhi band ----------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
